@@ -24,7 +24,7 @@ services:
     environment:
       - ConnectionStrings__DefaultConnection=Host=db;Database=ordersdb;Username=admin;Password=admin123
     ports:
-      - "5000:80"
+      - "5000:8080"
 
   frontend:
     build: ./FrontEnd

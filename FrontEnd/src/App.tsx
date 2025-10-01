@@ -11,6 +11,7 @@ import Reports from "./components/pages/Reports";
 import OrderDetails from "./components/pages/OrderDetails";
 
 import AddOrder from "./components/pages/AddOrder";
+import EditOrder from "./components/pages/EditOrder";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/orders/:status" element={<Orders />} />
             <Route path="/orders/details/:id" element={<OrderDetails />} />
             <Route path="/orders/add" element={<AddOrder />} />
+            <Route path="/orders/edit/:id" element={<EditOrder />} />
             <Route path="/products" element={<Products />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/reports" element={<Reports />} />

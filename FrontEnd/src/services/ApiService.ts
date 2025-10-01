@@ -22,7 +22,7 @@ class ApiService {
     if (!response.ok) throw new Error('Failed to delete order');
     // No need to return response.json() for 204 No Content
   }
-  private baseUrl = 'https://localhost:50384/api'; // Change if backend runs elsewhere
+  private baseUrl = 'http://localhost:5000/api'; // Updated for Docker backend
 
   // Address
   async getAllAddresses() {

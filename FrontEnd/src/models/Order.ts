@@ -1,3 +1,5 @@
+import { OrderItem } from "./OrderItem";
+
 export interface Order {
   orderId: number;
   shop: string;
@@ -9,4 +11,6 @@ export interface Order {
   entryBy: number;
   remark: string;
   createdAt: string;
+  status: string;
+  orderItems: OrderItem[];
 }

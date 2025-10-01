@@ -29,7 +29,8 @@ namespace WebAPI.Controllers
                 CustomerId = o.CustomerId,
                 EntryBy = o.EntryBy,
                 Remark = o.Remark,
-                CreatedAt = o.CreatedAt
+                CreatedAt = o.CreatedAt,
+                Status = o.Status
             }).ToList();
             return Ok(orders);
         }
@@ -50,7 +51,8 @@ namespace WebAPI.Controllers
                 CustomerId = order.CustomerId,
                 EntryBy = order.EntryBy,
                 Remark = order.Remark,
-                CreatedAt = order.CreatedAt
+                CreatedAt = order.CreatedAt,
+                Status = order.Status
             });
         }
 
@@ -115,6 +117,7 @@ namespace WebAPI.Controllers
             order.CustomerId = dto.CustomerId;
             order.EntryBy = dto.EntryBy;
             order.Remark = dto.Remark;
+            order.Status = dto.Status;
             // CreatedAt remains unchanged
 
             await _orderRepository.UpdateAsync(order);

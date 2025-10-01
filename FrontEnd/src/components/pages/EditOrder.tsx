@@ -1,187 +1,149 @@
-import React, { useEffect, useState } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-import apiService from '../../services/ApiService';
-import { Stack, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { ArrowBack, CheckCircle } from "@mui/icons-material";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import apiService from "../../services/ApiService";
 
-
-type Order = {
-  orderId: number;
-  shop: string;
-  poNo: string;
-  poDate: string;
-  tallyPoNo: string;
-  distributorId: number;
-  customerId: number;
-  entryBy: number;
-  remark: string;
-  status?: string;
-  createdAt?: string;
-};
-
-interface EditOrderProps {
-  id: number;
-  showNotification?: (message: string, severity?: "success" | "error" | "info" | "warning") => void;
-  onSuccess?: () => void;
-}
-
-const EditOrder: React.FC<EditOrderProps> = ({ id, showNotification, onSuccess }) => {
-  const [order, setOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState('');
-
+export default function EditOrder() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    orderId: 0,
+    shop: "",
+    poNo: "",
+    poDate: "",
+    tallyPoNo: "",
+    distributorId: 0,
+    customerId: 0,
+    entryBy: 0,
+    remark: "",
+    status: "pending",
+    createdAt: "",
+  });
+  const [successOpen, setSuccessOpen] = useState(false);
   useEffect(() => {
     if (!id) return;
-    apiService.getOrderById(Number(id))
-      .then((data: Order) => {
-        setOrder({
-          ...data,
-          poDate: data.poDate ? data.poDate.substring(0, 10) : '',
-        });
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    apiService.getOrderById(Number(id)).then((data: any) => {
+      setForm((prev) => ({
+        ...prev,
+        ...data,
+        poDate: data.poDate ? data.poDate.substring(0, 10) : "",
+        createdAt: data.createdAt ? data.createdAt.substring(0, 10) : "",
+      }));
+    });
   }, [id]);
 
-  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "number" ? Number(value) : value,
+    }));
+  };
+  const handleSelect = (e: any) => {
     const { name, value } = e.target;
-    setOrder((prev) => prev ? { ...prev, [name]: value } : prev);
-    setFieldErrors((prev) => ({ ...prev, [name]: '' })); // Clear error on change
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleStatusChange = (e: any) => {
-    const value = e.target.value;
-    setOrder((prev) => prev ? { ...prev, status: value } : prev);
-    setFieldErrors((prev) => ({ ...prev, status: '' }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!order) return;
-    const errors: { [key: string]: string } = {};
-    if (!order.shop) errors.shop = 'Shop is required.';
-    if (!order.poNo) errors.poNo = 'PO No is required.';
-    if (!order.poDate || order.poDate === '0001-01-01' || order.poDate === '0001-01-01T00:00:00.000Z') errors.poDate = 'PO Date is required and must be valid.';
-    if (!order.distributorId || order.distributorId <= 0) errors.distributorId = 'Distributor ID is required and must be > 0.';
-    if (!order.customerId || order.customerId <= 0) errors.customerId = 'Customer ID is required and must be > 0.';
-    if (!order.entryBy || order.entryBy <= 0) errors.entryBy = 'Entry By is required and must be > 0.';
-    setFieldErrors(errors);
-    if (Object.keys(errors).length > 0) return;
-
-    // Prepare payload (exclude orderId, createdAt)
-    const { orderId, createdAt, ...payload } = order;
-    let poDate = payload.poDate;
-    if (poDate && poDate.length === 10) {
-      poDate = new Date(poDate).toISOString();
-    }
-    const updatePayload = { ...payload, poDate, status: payload.status };
-    apiService.updateOrder(Number(id), updatePayload)
-      .then(() => {
-        if (showNotification) showNotification('Order updated successfully', 'success');
-        if (onSuccess) onSuccess();
-      })
-      .catch(() => {
-        if (showNotification) showNotification('Failed to update order', 'error');
-      });
+    // Prepare payload for backend
+    const { createdAt, ...rest } = form;
+    const payload = {
+      ...rest,
+      poDate: form.poDate ? new Date(form.poDate).toISOString() : undefined,
+    };
+    apiService.updateOrder(Number(id), payload).then(() => {
+  setSuccessOpen(true);
+    });
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (!order) return null;
-
   return (
-    <div>
-      <Stack spacing={2} sx={{ maxWidth: 500, margin: 'auto', mt: 4 }}>
+    <Box p={3}>
+      <Box display="flex" justifyContent="space-between" mb={3}>
         <Typography variant="h5">Edit Order</Typography>
-        <TextField
-          label="Shop"
-          name="shop"
-          value={order.shop || ''}
-          onChange={handleChange}
-          required
-          error={!!fieldErrors.shop}
-          helperText={fieldErrors.shop}
-        />
-        <TextField
-          label="PO No"
-          name="poNo"
-          value={order.poNo || ''}
-          onChange={handleChange}
-          required
-          error={!!fieldErrors.poNo}
-          helperText={fieldErrors.poNo}
-        />
-        <TextField
-          label="PO Date"
-          name="poDate"
-          type="date"
-          value={order.poDate || ''}
-          onChange={handleChange}
-          InputLabelProps={{ shrink: true }}
-          required
-          error={!!fieldErrors.poDate}
-          helperText={fieldErrors.poDate}
-        />
-        <TextField
-          label="Tally PO No"
-          name="tallyPoNo"
-          value={order.tallyPoNo || ''}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Distributor ID"
-          name="distributorId"
-          type="number"
-          value={order.distributorId || ''}
-          onChange={handleChange}
-          required
-          error={!!fieldErrors.distributorId}
-          helperText={fieldErrors.distributorId}
-        />
-        <TextField
-          label="Customer ID"
-          name="customerId"
-          type="number"
-          value={order.customerId || ''}
-          onChange={handleChange}
-          required
-          error={!!fieldErrors.customerId}
-          helperText={fieldErrors.customerId}
-        />
-        <TextField
-          label="Entry By"
-          name="entryBy"
-          type="number"
-          value={order.entryBy || ''}
-          onChange={handleChange}
-          error={!!fieldErrors.entryBy}
-          helperText={fieldErrors.entryBy}
-        />
-        <TextField
-          label="Remark"
-          name="remark"
-          value={order.remark || ''}
-          onChange={handleChange}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Status</InputLabel>
-          <Select
-            label="Status"
-            name="status"
-            value={order.status || "New"}
-            onChange={handleStatusChange}
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBack />}
+          onClick={() => navigate("/orders/all")}
+        >
+          Back to Orders
+        </Button>
+      </Box>
+      <Card>
+        <CardHeader title="Order Information" />
+        <CardContent>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            display="flex"
+            flexDirection="column"
+            gap={2}
           >
-            <MenuItem value="New">New</MenuItem>
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="Completed">Completed</MenuItem>
-          </Select>
-        </FormControl>
-        <Button variant="contained" onClick={handleSubmit}>Update Order</Button>
-      </Stack>
-    </div>
+            <Box display="flex" gap={2}>
+              <TextField label="Order ID" name="orderId" value={form.orderId} disabled fullWidth />
+              <TextField label="Shop" name="shop" value={form.shop} onChange={handleChange} fullWidth required />
+            </Box>
+            <Box display="flex" gap={2}>
+              <TextField label="PO No" name="poNo" value={form.poNo} onChange={handleChange} fullWidth required />
+              <TextField label="PO Date" name="poDate" type="date" value={form.poDate} onChange={handleChange} fullWidth required InputLabelProps={{ shrink: true }} />
+            </Box>
+            <Box display="flex" gap={2}>
+              <TextField label="Tally PO No" name="tallyPoNo" value={form.tallyPoNo} onChange={handleChange} fullWidth />
+              <TextField label="Remark" name="remark" value={form.remark} onChange={handleChange} fullWidth />
+            </Box>
+            <Box display="flex" gap={2}>
+              <TextField label="Distributor ID" name="distributorId" type="number" value={form.distributorId} onChange={handleChange} fullWidth required />
+              <TextField label="Customer ID" name="customerId" type="number" value={form.customerId} onChange={handleChange} fullWidth required />
+            </Box>
+            <Box display="flex" gap={2}>
+              <TextField label="Entry By" name="entryBy" type="number" value={form.entryBy} onChange={handleChange} fullWidth required />
+              <TextField label="Created At" name="createdAt" type="date" value={form.createdAt} disabled fullWidth InputLabelProps={{ shrink: true }} />
+            </Box>
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select name="status" value={form.status} onChange={handleSelect} required>
+                <MenuItem value="pending">Pending</MenuItem>
+                <MenuItem value="completed">Completed</MenuItem>
+                <MenuItem value="in progress">In Progress</MenuItem>
+                <MenuItem value="cancelled">Cancelled</MenuItem>
+              </Select>
+            </FormControl>
+            <Box display="flex" justifyContent="space-between" mt={2}>
+              <Button variant="outlined" onClick={() => navigate("/orders")}>Cancel</Button>
+              <Button variant="contained" color="primary" type="submit">Update Order</Button>
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+      <Dialog open={successOpen} onClose={() => setSuccessOpen(false)}>
+        <DialogTitle>Success</DialogTitle>
+        <DialogContent sx={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <CheckCircle color="success" sx={{ fontSize: 60, mb: 2 }} />
+          <Typography>Order has been updated successfully!</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSuccessOpen(false)}>Close</Button>
+          <Button variant="contained" onClick={() => navigate("/orders/all")}>View Orders</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
-};
-
-export default EditOrder;
+}
