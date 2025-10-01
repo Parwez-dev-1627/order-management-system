@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Typography, Paper, Chip, Button } from "@mui/material";
-import apiService from "../../services/ApiService";
 
-// ...existing code...
+// Sample dataset (in real app you'd fetch this from API)
+const sampleData = [
+  { id: 1, customer: "John Doe", status: "completed", total: "$120" },
+  { id: 2, customer: "Jane Smith", status: "pending", total: "$80" },
+  { id: 3, customer: "Michael Brown", status: "cancelled", total: "$50" },
+  { id: 4, customer: "Emily Johnson", status: "pending", total: "$200" },
+  { id: 5, customer: "David Wilson", status: "completed", total: "$150" },
+];
 
-const getStatusChip = (status?: string) => {
-  if (!status) return <Chip label="Unknown" />;
+const getStatusChip = (status: string) => {
   switch (status.toLowerCase()) {
     case "completed":
       return <Chip label="Completed" color="success" />;
@@ -21,31 +26,10 @@ const getStatusChip = (status?: string) => {
 
 export default function OrderDetails() {
   const { id } = useParams();
-  const [order, setOrder] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (id) {
-      apiService.getOrderById(Number(id))
-        .then((data) => {
-          setOrder(data);
-        })
-        .catch((err) => {
-          console.error('Failed to fetch order details:', err);
-          setOrder(null);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }, [id]);
-
-  if (loading) {
-    return <Typography>Loading...</Typography>;
-  }
+  const order = sampleData.find((o) => o.id.toString() === id);
 
   if (!order) {
-    return <Typography variant="h6">Order not found.</Typography>;
+    return <Typography variant="h6">Order not found</Typography>;
   }
 
   return (
@@ -53,11 +37,10 @@ export default function OrderDetails() {
       <Typography variant="h4" gutterBottom>
         Order Details
       </Typography>
-  <Typography variant="h6">Order ID: {order.orderId}</Typography>
-  <Typography variant="h6">Shop: {order.shop}</Typography>
-  <Typography variant="h6">PO No: {order.poNo}</Typography>
-  <Typography variant="h6">Remark: {order.remark}</Typography>
-  <Typography variant="h6">Created At: {order.createdAt}</Typography>
+      <Typography variant="h6">Order ID: {order.id}</Typography>
+      <Typography variant="h6">Customer: {order.customer}</Typography>
+      <Typography variant="h6">Status: {getStatusChip(order.status)}</Typography>
+      <Typography variant="h6">Total: {order.total}</Typography>
 
       <Button
         variant="contained"

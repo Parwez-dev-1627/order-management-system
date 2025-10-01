@@ -1,91 +1,294 @@
+// src/pages/AddOrder.tsx
 import React, { useState } from "react";
-import { TextField, Button, Stack, Typography } from "@mui/material";
-import apiService from "../../services/ApiService";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { ArrowBack, CheckCircle } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-interface AddOrderProps {
-  onSuccess?: () => void;
-  showNotification?: (message: string, severity?: "success" | "error" | "info" | "warning") => void;
-}
+export default function AddOrder() {
+  const navigate = useNavigate();
 
-const AddOrder: React.FC<AddOrderProps> = ({ onSuccess, showNotification }) => {
-    const [form, setForm] = useState({
-      shop: "",
-      poNo: "",
-      poDate: new Date().toISOString().substring(0, 10),
-      tallyPoNo: "",
-      distributorId: "",
-      customerId: "",
-      entryBy: "",
-      remark: "",
-      status: "New"
-    });
-  const [loading, setLoading] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  // Form state
+  const [form, setForm] = useState({
+    name: "",
+    sku: "",
+    category: "",
+    supplier: "",
+    price: "",
+    cost: "",
+    quantity: "",
+    minStock: "",
+    maxStock: "",
+    description: "",
+    image: "",
+    status: "active",
+    featured: false,
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    let newValue: any = value;
-    if (["distributorId", "customerId", "entryBy"].includes(name)) {
-      newValue = value === "" ? "" : value.replace(/[^0-9]/g, "");
-    }
-    if (name === "poDate") {
-      newValue = value;
-    }
-    setForm({ ...form, [name]: newValue });
-    setFieldErrors((prev) => ({ ...prev, [name]: '' })); // Clear error on change
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "number" ? Number(value) : value,
+    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const errors: { [key: string]: string } = {};
-    if (!form.shop) errors.shop = 'Shop is required.';
-    if (!form.poNo) errors.poNo = 'PO No is required.';
-    if (!form.poDate || form.poDate === '0001-01-01' || form.poDate === '0001-01-01T00:00:00.000Z') errors.poDate = 'PO Date is required and must be valid.';
-  if (!form.distributorId || Number(form.distributorId) <= 0) errors.distributorId = 'Distributor ID is required and must be > 0.';
-  if (!form.customerId || Number(form.customerId) <= 0) errors.customerId = 'Customer ID is required and must be > 0.';
-  if (!form.entryBy || Number(form.entryBy) <= 0) errors.entryBy = 'Entry By is required and must be > 0.';
-    setFieldErrors(errors);
-    if (Object.keys(errors).length > 0) return;
-    setLoading(true);
-    try {
-    const { shop, poNo, poDate, tallyPoNo, distributorId, customerId, entryBy, remark, status } = form;
-  const payload = { shop, poNo, poDate: new Date(poDate).toISOString(), tallyPoNo, distributorId: Number(distributorId), customerId: Number(customerId), entryBy: Number(entryBy), remark, status };
-  await apiService.createOrder(payload);
-  if (showNotification) showNotification('Order added successfully', 'success');
-  if (onSuccess) onSuccess();
-    } catch (err) {
-      // Optionally set a general error
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const handleSelect = (e: any) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, featured: e.target.checked }));
+  };
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setForm((prev) => ({ ...prev, image: event.target?.result as string }));
+      };
+      reader.readAsDataURL(e.target.files[0]);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Normally call API here...
+    setSuccessOpen(true);
   };
 
   return (
-    <div>
-      <Stack spacing={2} sx={{ maxWidth: 500, margin: 'auto', mt: 2 }}>
-  <TextField label="Shop" name="shop" value={form.shop} onChange={handleChange} fullWidth required error={!!fieldErrors.shop} helperText={fieldErrors.shop} />
-  <TextField label="PO No" name="poNo" value={form.poNo} onChange={handleChange} fullWidth required error={!!fieldErrors.poNo} helperText={fieldErrors.poNo} />
-  <TextField label="PO Date" name="poDate" type="date" value={form.poDate} onChange={handleChange} fullWidth required InputLabelProps={{ shrink: true }} error={!!fieldErrors.poDate} helperText={fieldErrors.poDate} />
-        <TextField label="Tally PO No" name="tallyPoNo" value={form.tallyPoNo} onChange={handleChange} fullWidth />
-  <TextField label="Distributor ID" name="distributorId" type="number" value={form.distributorId} onChange={handleChange} fullWidth required error={!!fieldErrors.distributorId} helperText={fieldErrors.distributorId} />
-  <TextField label="Customer ID" name="customerId" type="number" value={form.customerId} onChange={handleChange} fullWidth required error={!!fieldErrors.customerId} helperText={fieldErrors.customerId} />
-  <TextField label="Entry By" name="entryBy" type="number" value={form.entryBy} onChange={handleChange} fullWidth required error={!!fieldErrors.entryBy} helperText={fieldErrors.entryBy} />
-        <TextField label="Remark" name="remark" value={form.remark} onChange={handleChange} fullWidth />
-        {/* Per-field errors are now shown via helperText on each TextField */}
+    <Box p={3}>
+      <Box display="flex" justifyContent="space-between" mb={3}>
+        <Typography variant="h5">Add New Product</Typography>
         <Button
-          onClick={handleSubmit}
-          variant="contained"
-          color="primary"
-          fullWidth
-          disabled={loading}
-          sx={{ mt: 2 }}
+          variant="outlined"
+          startIcon={<ArrowBack />}
+          onClick={() => navigate("/orders")}
         >
-          {loading ? "Adding..." : "Add Order"}
+          Back to Products
         </Button>
-      </Stack>
-    </div>
+      </Box>
+
+      <Card>
+        <CardHeader title="Product Information" />
+        <CardContent>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            display="flex"
+            flexDirection="column"
+            gap={2}
+          >
+            <Box display="flex" gap={2}>
+              <TextField
+                label="Product Name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                label="Product SKU"
+                name="sku"
+                value={form.sku}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </Box>
+
+            <Box display="flex" gap={2}>
+              <FormControl fullWidth>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  name="category"
+                  value={form.category}
+                  onChange={handleSelect}
+                  required
+                >
+                  <MenuItem value="electronics">Electronics</MenuItem>
+                  <MenuItem value="home-appliances">Home Appliances</MenuItem>
+                  <MenuItem value="furniture">Furniture</MenuItem>
+                  <MenuItem value="clothing">Clothing</MenuItem>
+                  <MenuItem value="books">Books</MenuItem>
+                  <MenuItem value="toys">Toys</MenuItem>
+                  <MenuItem value="sports">Sports</MenuItem>
+                  <MenuItem value="beauty">Beauty</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel>Supplier</InputLabel>
+                <Select
+                  name="supplier"
+                  value={form.supplier}
+                  onChange={handleSelect}
+                  required
+                >
+                  <MenuItem value="supplier-a">Supplier A</MenuItem>
+                  <MenuItem value="supplier-b">Supplier B</MenuItem>
+                  <MenuItem value="supplier-c">Supplier C</MenuItem>
+                  <MenuItem value="supplier-d">Supplier D</MenuItem>
+                  <MenuItem value="supplier-e">Supplier E</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
+            <Box display="flex" gap={2}>
+              <TextField
+                label="Price (₹)"
+                name="price"
+                type="number"
+                value={form.price}
+                onChange={handleChange}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                }}
+                fullWidth
+                required
+              />
+              <TextField
+                label="Cost (₹)"
+                name="cost"
+                type="number"
+                value={form.cost}
+                onChange={handleChange}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                }}
+                fullWidth
+                required
+              />
+              <TextField
+                label="Initial Stock"
+                name="quantity"
+                type="number"
+                value={form.quantity}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </Box>
+
+            <Box display="flex" gap={2}>
+              <TextField
+                label="Minimum Stock"
+                name="minStock"
+                type="number"
+                value={form.minStock}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                label="Maximum Stock"
+                name="maxStock"
+                type="number"
+                value={form.maxStock}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </Box>
+
+            <TextField
+              label="Description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              multiline
+              rows={3}
+              fullWidth
+            />
+
+            <Box display="flex" gap={2}>
+              <Button variant="contained" component="label">
+                Upload Image
+                <input hidden accept="image/*" type="file" onChange={handleImage} />
+              </Button>
+              {form.image && (
+                <Box component="img" src={form.image} alt="preview" width={100} />
+              )}
+            </Box>
+
+            <FormControl fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select
+                name="status"
+                value={form.status}
+                onChange={handleSelect}
+                required
+              >
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="inactive">Inactive</MenuItem>
+                <MenuItem value="discontinued">Discontinued</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControlLabel
+              control={
+                <Checkbox checked={form.featured} onChange={handleCheckbox} />
+              }
+              label="Featured Product"
+            />
+
+            <Box display="flex" justifyContent="space-between" mt={2}>
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/orders")}
+              >
+                Cancel
+              </Button>
+              <Button variant="contained" color="primary" type="submit">
+                Save Product
+              </Button>
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+
+      {/* Success Dialog */}
+      <Dialog open={successOpen} onClose={() => setSuccessOpen(false)}>
+        <DialogTitle>Success</DialogTitle>
+        <DialogContent
+          sx={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}
+        >
+          <CheckCircle color="success" sx={{ fontSize: 60, mb: 2 }} />
+          <Typography>Product has been added successfully!</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSuccessOpen(false)}>Close</Button>
+          <Button variant="contained" onClick={() => navigate("/orders")}>
+            View Products
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 }
-
-export default AddOrder;
