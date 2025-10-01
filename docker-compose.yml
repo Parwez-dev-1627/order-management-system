@@ -14,7 +14,9 @@ services:
       - db_data:/var/lib/postgresql/data
 
   backend:
-    build: ./WebAPI
+    build:
+      context: ./WebAPI
+      dockerfile: Dockerfile
     container_name: order_api
     restart: always
     depends_on:

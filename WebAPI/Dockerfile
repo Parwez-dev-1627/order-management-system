@@ -2,12 +2,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+
+
 # Copy csproj and restore as distinct layers
-COPY WebAPI/*.csproj ./WebAPI/
+COPY *.csproj ./WebAPI/
 RUN dotnet restore ./WebAPI/WebAPI.csproj
 
 # Copy everything else and build
-COPY . ./
+COPY . ./WebAPI/
 WORKDIR /app/WebAPI
 RUN dotnet publish WebAPI.csproj -c Release -o out
 
