@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System - Inventory Reports</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar will be loaded here -->
+        
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Header will be loaded here -->
+            
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Inventory Reports</h1>
+                    <div class="d-flex">
+                        <div class="dropdown me-2">
+                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="reportPeriodDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-calendar-alt"></i> Period: This Month
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="reportPeriodDropdown">
+                                <a class="dropdown-item" href="#">Today</a>
+                                <a class="dropdown-item" href="#">This Week</a>
+                                <a class="dropdown-item active" href="#">This Month</a>
+                                <a class="dropdown-item" href="#">Last Month</a>
+                                <a class="dropdown-item" href="#">This Quarter</a>
+                                <a class="dropdown-item" href="#">This Year</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Custom Range</a>
+                            </div>
+                        </div>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+                            <i class="fas fa-download fa-sm text-white-50"></i> Export Report
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Inventory Summary Cards -->
+                <div class="row">
+                    <!-- Total Products Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Products</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">42</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-up"></i> 5 new products this month
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-box fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Stock Value Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Stock Value</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">₹486,750.00</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-up"></i> 8.2% from last month
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Low Stock Items Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Low Stock Items</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
+                                        <div class="mt-1 text-danger">
+                                            <i class="fas fa-arrow-up"></i> 3 items added this week
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Out of Stock Items Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Out of Stock</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-down"></i> 2 items restocked this week
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory Charts -->
+                <div class="row">
+                    <!-- Stock Level by Category -->
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Stock Level by Category</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Chart Options:</div>
+                                        <a class="dropdown-item" href="#">By Quantity</a>
+                                        <a class="dropdown-item active" href="#">By Value</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="stockByCategoryChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stock Status Distribution -->
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Stock Status Distribution</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-pie pt-4">
+                                    <canvas id="stockStatusChart"></canvas>
+                                </div>
+                                <div class="mt-4 text-center small">
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-success"></i> In Stock
+                                    </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-warning"></i> Low Stock
+                                    </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle text-danger"></i> Out of Stock
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory Movement -->
+                <div class="row">
+                    <!-- Inventory In/Out Trend -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Inventory Movement Trend</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="inventoryMovementChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Inventory Turnover Rate -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Inventory Turnover Rate by Category</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="inventoryTurnoverChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Low Stock and Out of Stock Items -->
+                <div class="row">
+                    <!-- Low Stock Items -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Low Stock Items</h6>
+                                <span class="badge bg-warning text-white">7 Items</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Category</th>
+                                                <th>Current Stock</th>
+                                                <th>Min. Required</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Product B</td>
+                                                <td>Electronics</td>
+                                                <td>12</td>
+                                                <td>20</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Reorder
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product D</td>
+                                                <td>Furniture</td>
+                                                <td>8</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Reorder
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product F</td>
+                                                <td>Home Appliances</td>
+                                                <td>5</td>
+                                                <td>10</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Reorder
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product G</td>
+                                                <td>Electronics</td>
+                                                <td>7</td>
+                                                <td>15</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Reorder
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product H</td>
+                                                <td>Clothing</td>
+                                                <td>10</td>
+                                                <td>20</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Reorder
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Out of Stock Items -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Out of Stock Items</h6>
+                                <span class="badge bg-danger text-white">3 Items</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Category</th>
+                                                <th>Last Stock Date</th>
+                                                <th>Supplier</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Product C</td>
+                                                <td>Home Appliances</td>
+                                                <td>2023-12-05</td>
+                                                <td>Supplier A</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Order Now
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product I</td>
+                                                <td>Electronics</td>
+                                                <td>2023-12-03</td>
+                                                <td>Supplier B</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Order Now
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product J</td>
+                                                <td>Furniture</td>
+                                                <td>2023-11-28</td>
+                                                <td>Supplier C</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Order Now
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Performing Products -->
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Top Performing Products by Inventory Turnover</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Category</th>
+                                                <th>Current Stock</th>
+                                                <th>Units Sold (Month)</th>
+                                                <th>Turnover Rate</th>
+                                                <th>Days of Inventory</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Product A</td>
+                                                <td>Electronics</td>
+                                                <td>45</td>
+                                                <td>124</td>
+                                                <td>2.8</td>
+                                                <td>11</td>
+                                                <td><span class="badge badge-success">Excellent</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product B</td>
+                                                <td>Electronics</td>
+                                                <td>12</td>
+                                                <td>76</td>
+                                                <td>6.3</td>
+                                                <td>5</td>
+                                                <td><span class="badge badge-success">Excellent</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product D</td>
+                                                <td>Furniture</td>
+                                                <td>8</td>
+                                                <td>87</td>
+                                                <td>10.9</td>
+                                                <td>3</td>
+                                                <td><span class="badge badge-warning">Low Stock</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product E</td>
+                                                <td>Clothing</td>
+                                                <td>67</td>
+                                                <td>65</td>
+                                                <td>1.0</td>
+                                                <td>31</td>
+                                                <td><span class="badge badge-info">Good</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product C</td>
+                                                <td>Home Appliances</td>
+                                                <td>0</td>
+                                                <td>54</td>
+                                                <td>N/A</td>
+                                                <td>0</td>
+                                                <td><span class="badge badge-danger">Out of Stock</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory Value Analysis -->
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Inventory Value Analysis</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card bg-light border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title text-primary">ABC Analysis</h5>
+                                                <div class="chart-pie pt-2" style="height: 200px;">
+                                                    <canvas id="abcAnalysisChart"></canvas>
+                                                </div>
+                                                <div class="mt-2 text-center small">
+                                                    <span class="mr-2">
+                                                        <i class="fas fa-circle text-danger"></i> A (High Value)
+                                                    </span>
+                                                    <span class="mr-2">
+                                                        <i class="fas fa-circle text-warning"></i> B (Medium Value)
+                                                    </span>
+                                                    <span class="mr-2">
+                                                        <i class="fas fa-circle text-success"></i> C (Low Value)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card bg-light border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title text-primary">Inventory Aging</h5>
+                                                <div class="chart-bar" style="height: 200px;">
+                                                    <canvas id="inventoryAgingChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card bg-light border-0 shadow-sm">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title text-primary">Stock vs Sales</h5>
+                                                <div class="chart-bar" style="height: 200px;">
+                                                    <canvas id="stockVsSalesChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Order Management System 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Select "Logout" below to end your current session and return to the login page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Chart.js Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load sidebar
+            fetch('components/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Highlight active menu item
+                    const currentPath = window.location.pathname;
+                    const menuItems = document.querySelectorAll('.sidebar-nav .nav-link');
+                    
+                    menuItems.forEach(item => {
+                        if (item.getAttribute('href') === currentPath.split('/').pop()) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Expand Reports menu
+                    const reportsMenu = document.querySelector('#collapseReports');
+                    if (reportsMenu) {
+                        reportsMenu.classList.add('show');
+                    }
+                });
+            
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#content-wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Initialize charts after header is loaded
+                    initializeCharts();
+                });
+        });
+        
+        function initializeCharts() {
+            // Stock by Category Chart
+            const stockByCategoryCtx = document.getElementById('stockByCategoryChart').getContext('2d');
+            const stockByCategoryChart = new Chart(stockByCategoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Electronics', 'Home Appliances', 'Furniture', 'Clothing'],
+                    datasets: [{
+                        label: 'Stock Value (₹)',
+                        data: [185600, 125400, 132750, 43000],
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.8)',
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(54, 185, 204, 0.8)',
+                            'rgba(246, 194, 62, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(78, 115, 223, 1)',
+                            'rgba(28, 200, 138, 1)',
+                            'rgba(54, 185, 204, 1)',
+                            'rgba(246, 194, 62, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Value: ₹' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Stock Status Chart
+            const stockStatusCtx = document.getElementById('stockStatusChart').getContext('2d');
+            const stockStatusChart = new Chart(stockStatusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['In Stock', 'Low Stock', 'Out of Stock'],
+                    datasets: [{
+                        data: [32, 7, 3],
+                        backgroundColor: [
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(231, 74, 59, 0.8)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(28, 200, 138, 1)',
+                            'rgba(246, 194, 62, 1)',
+                            'rgba(231, 74, 59, 1)'
+                        ],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} products (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Inventory Movement Chart
+            const inventoryMovementCtx = document.getElementById('inventoryMovementChart').getContext('2d');
+            const inventoryMovementChart = new Chart(inventoryMovementCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [
+                        {
+                            label: 'Stock In',
+                            data: [45000, 52000, 48000, 55000],
+                            backgroundColor: 'rgba(28, 200, 138, 0.1)',
+                            borderColor: 'rgba(28, 200, 138, 1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Stock Out',
+                            data: [38000, 42000, 45000, 48000],
+                            backgroundColor: 'rgba(231, 74, 59, 0.1)',
+                            borderColor: 'rgba(231, 74, 59, 1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ₹${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Inventory Turnover Chart
+            const inventoryTurnoverCtx = document.getElementById('inventoryTurnoverChart').getContext('2d');
+            const inventoryTurnoverChart = new Chart(inventoryTurnoverCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Electronics', 'Home Appliances', 'Furniture', 'Clothing'],
+                    datasets: [{
+                        label: 'Turnover Rate',
+                        data: [4.2, 3.8, 5.1, 2.5],
+                        backgroundColor: [
+                            'rgba(78, 115, 223, 0.8)',
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(54, 185, 204, 0.8)',
+                            'rgba(246, 194, 62, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(78, 115, 223, 1)',
+                            'rgba(28, 200, 138, 1)',
+                            'rgba(54, 185, 204, 1)',
+                            'rgba(246, 194, 62, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // ABC Analysis Chart
+            const abcAnalysisCtx = document.getElementById('abcAnalysisChart').getContext('2d');
+            const abcAnalysisChart = new Chart(abcAnalysisCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['A (High Value)', 'B (Medium Value)', 'C (Low Value)'],
+                    datasets: [{
+                        data: [65, 25, 10],
+                        backgroundColor: [
+                            'rgba(231, 74, 59, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(28, 200, 138, 0.8)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(231, 74, 59, 1)',
+                            'rgba(246, 194, 62, 1)',
+                            'rgba(28, 200, 138, 1)'
+                        ],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    return `${label}: ${value}% of inventory value`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Inventory Aging Chart
+            const inventoryAgingCtx = document.getElementById('inventoryAgingChart').getContext('2d');
+            const inventoryAgingChart = new Chart(inventoryAgingCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-30 days', '31-60 days', '61-90 days', '90+ days'],
+                    datasets: [{
+                        label: 'Inventory Value (₹)',
+                        data: [285000, 125000, 65000, 11750],
+                        backgroundColor: [
+                            'rgba(28, 200, 138, 0.8)',
+                            'rgba(54, 185, 204, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(231, 74, 59, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 200, 138, 1)',
+                            'rgba(54, 185, 204, 1)',
+                            'rgba(246, 194, 62, 1)',
+                            'rgba(231, 74, 59, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Value: ₹' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Stock vs Sales Chart
+            const stockVsSalesCtx = document.getElementById('stockVsSalesChart').getContext('2d');
+            const stockVsSalesChart = new Chart(stockVsSalesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Electronics', 'Home Appliances', 'Furniture', 'Clothing'],
+                    datasets: [
+                        {
+                            label: 'Current Stock',
+                            data: [185600, 125400, 132750, 43000],
+                            backgroundColor: 'rgba(54, 185, 204, 0.8)',
+                            borderColor: 'rgba(54, 185, 204, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Monthly Sales',
+                            data: [82600, 48546, 113013, 25935],
+                            backgroundColor: 'rgba(78, 115, 223, 0.8)',
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ₹${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

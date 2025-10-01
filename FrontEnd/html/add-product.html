@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System - Add Product</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar will be loaded here -->
+        
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Header will be loaded here -->
+            
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Add New Product</h1>
+                    <a href="products.html" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+                        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to Products
+                    </a>
+                </div>
+                
+                <!-- Add Product Form -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Product Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <form id="addProductForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productName" class="form-label">Product Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="productName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productSku" class="form-label">Product SKU <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="productSku" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productCategory" class="form-label">Category <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="productCategory" required>
+                                        <option value="" selected disabled>Select Category</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="home-appliances">Home Appliances</option>
+                                        <option value="furniture">Furniture</option>
+                                        <option value="clothing">Clothing</option>
+                                        <option value="books">Books</option>
+                                        <option value="toys">Toys</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="beauty">Beauty</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productSupplier" class="form-label">Supplier <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="productSupplier" required>
+                                        <option value="" selected disabled>Select Supplier</option>
+                                        <option value="supplier-a">Supplier A</option>
+                                        <option value="supplier-b">Supplier B</option>
+                                        <option value="supplier-c">Supplier C</option>
+                                        <option value="supplier-d">Supplier D</option>
+                                        <option value="supplier-e">Supplier E</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="productPrice" class="form-label">Price (₹) <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control" id="productPrice" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="productCost" class="form-label">Cost (₹) <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        <input type="number" class="form-control" id="productCost" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="productQuantity" class="form-label">Initial Stock <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="productQuantity" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productMinStock" class="form-label">Minimum Stock Level <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="productMinStock" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productMaxStock" class="form-label">Maximum Stock Level <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="productMaxStock" min="0" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="productDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="productImage" class="form-label">Product Image</label>
+                                    <input type="file" class="form-control" id="productImage" accept="image/*">
+                                    <div class="form-text">Upload a product image (JPG, PNG, GIF)</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productStatus" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="productStatus" required>
+                                        <option value="active" selected>Active</option>
+                                        <option value="inactive">Inactive</option>
+                                        <option value="discontinued">Discontinued</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="productFeatured">
+                                        <label class="form-check-label" for="productFeatured">
+                                            Featured Product
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" onclick="window.location.href='products.html'">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Product Preview Card -->
+                <div class="card shadow mb-4" id="productPreview" style="display: none;">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Product Preview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <img id="previewImage" src="https://via.placeholder.com/200" class="img-fluid rounded mb-3" alt="Product Image">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h4 id="previewName">Product Name</h4>
+                                <p><strong>SKU:</strong> <span id="previewSku">SKU123</span></p>
+                                <p><strong>Category:</strong> <span id="previewCategory">Category</span></p>
+                                <p><strong>Supplier:</strong> <span id="previewSupplier">Supplier</span></p>
+                                <p><strong>Price:</strong> <span id="previewPrice">₹0.00</span></p>
+                                <p><strong>Stock:</strong> <span id="previewStock">0</span></p>
+                                <p><strong>Status:</strong> <span id="previewStatus">Active</span></p>
+                                <p><strong>Description:</strong> <span id="previewDescription">Product description</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Order Management System 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                        <p>Product has been added successfully!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="products.html" class="btn btn-primary">View Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Load Sidebar and Header -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load sidebar
+            fetch('components/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Highlight active menu item
+                    const currentPath = window.location.pathname;
+                    const menuItems = document.querySelectorAll('.sidebar-nav .nav-link');
+                    
+                    menuItems.forEach(item => {
+                        if (item.getAttribute('href') === 'products.html') {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Expand Product Management menu
+                    const productMenu = document.querySelector('#collapseProducts');
+                    if (productMenu) {
+                        productMenu.classList.add('show');
+                    }
+                });
+            
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#content-wrapper').insertAdjacentHTML('afterbegin', data);
+                });
+            
+            // Form submission
+            document.getElementById('addProductForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // In a real application, you would send the form data to the server
+                // For this example, we'll just show the success modal
+                
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            });
+            
+            // Real-time preview
+            const productName = document.getElementById('productName');
+            const productSku = document.getElementById('productSku');
+            const productCategory = document.getElementById('productCategory');
+            const productSupplier = document.getElementById('productSupplier');
+            const productPrice = document.getElementById('productPrice');
+            const productQuantity = document.getElementById('productQuantity');
+            const productStatus = document.getElementById('productStatus');
+            const productDescription = document.getElementById('productDescription');
+            const productImage = document.getElementById('productImage');
+            const productPreview = document.getElementById('productPreview');
+            
+            // Show preview when any field changes
+            [productName, productSku, productCategory, productSupplier, productPrice, productQuantity, productStatus, productDescription].forEach(field => {
+                field.addEventListener('input', updatePreview);
+            });
+            
+            productImage.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('previewImage').src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                updatePreview();
+            });
+            
+            function updatePreview() {
+                // Show preview card
+                productPreview.style.display = 'block';
+                
+                // Update preview content
+                document.getElementById('previewName').textContent = productName.value || 'Product Name';
+                document.getElementById('previewSku').textContent = productSku.value || 'SKU123';
+                document.getElementById('previewCategory').textContent = productCategory.options[productCategory.selectedIndex].text || 'Category';
+                document.getElementById('previewSupplier').textContent = productSupplier.options[productSupplier.selectedIndex].text || 'Supplier';
+                document.getElementById('previewPrice').textContent = productPrice.value ? '₹' + parseFloat(productPrice.value).toFixed(2) : '₹0.00';
+                document.getElementById('previewStock').textContent = productQuantity.value || '0';
+                document.getElementById('previewStatus').textContent = productStatus.options[productStatus.selectedIndex].text || 'Active';
+                document.getElementById('previewDescription').textContent = productDescription.value || 'Product description';
+                
+                // Update status badge color
+                const statusBadge = document.getElementById('previewStatus');
+                statusBadge.className = '';
+                if (productStatus.value === 'active') {
+                    statusBadge.classList.add('badge', 'badge-success');
+                } else if (productStatus.value === 'inactive') {
+                    statusBadge.classList.add('badge', 'badge-secondary');
+                } else if (productStatus.value === 'discontinued') {
+                    statusBadge.classList.add('badge', 'badge-danger');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

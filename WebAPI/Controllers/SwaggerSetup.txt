@@ -1,0 +1,12 @@
+// In Startup.cs (for .NET Core 3.1/5/6) or Program.cs (for .NET 6+), add the following:
+
+// In ConfigureServices method:
+services.AddSwaggerGen();
+
+// In Configure method (Startup.cs) or after app creation (Program.cs):
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+	c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order Management API V1");
+	c.RoutePrefix = string.Empty;
+});

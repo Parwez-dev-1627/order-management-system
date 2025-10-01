@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System - Cancelled Orders</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar will be loaded here -->
+        
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Header will be loaded here -->
+            
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Cancelled Orders</h1>
+                    <div class="d-flex">
+                        <a href="orders.html" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm me-2">
+                            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to All Orders
+                        </a>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="exportBtn">
+                            <i class="fas fa-download fa-sm text-white-50"></i> Export
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Summary Cards -->
+                <div class="row">
+                    <!-- Total Cancelled Orders Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Cancelled Orders</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                        <div class="mt-1 text-info">
+                                            <i class="fas fa-percentage"></i> 3.8% of all orders
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- This Month Cancelled Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">This Month</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                        <div class="mt-1 text-danger">
+                                            <i class="fas fa-arrow-up"></i> 2 from last month
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Refund Amount Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Refund Amount</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">₹8,940.00</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-check-circle"></i> 92% processed
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cancellation Reasons Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-secondary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Top Reason</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">Customer Request</div>
+                                        <div class="mt-1 text-info">
+                                            <i class="fas fa-info-circle"></i> 67% of cancellations
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-question-circle fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancellation Reasons Chart -->
+                <div class="row">
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Cancellation Reasons</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Chart Options:</div>
+                                        <a class="dropdown-item" href="#">This Month</a>
+                                        <a class="dropdown-item active" href="#">Last 3 Months</a>
+                                        <a class="dropdown-item" href="#">This Year</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="cancellationReasonsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cancellation Trend Chart -->
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Cancellation Trend</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-bar">
+                                    <canvas id="cancellationTrendChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cancelled Orders Table -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Cancelled Orders List</h6>
+                        <div class="d-flex">
+                            <div class="input-group me-2" style="width: 250px;">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search orders..." aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">All Cancelled Orders</a>
+                                    <a class="dropdown-item" href="#">This Week</a>
+                                    <a class="dropdown-item" href="#">This Month</a>
+                                    <a class="dropdown-item" href="#">Last Month</a>
+                                    <a class="dropdown-item" href="#">This Quarter</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Customer Request</a>
+                                    <a class="dropdown-item" href="#">Out of Stock</a>
+                                    <a class="dropdown-item" href="#">Payment Issue</a>
+                                    <a class="dropdown-item" href="#">Other</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="cancelledOrdersTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Order Number</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Cancelled Date</th>
+                                        <th>Reason</th>
+                                        <th>Refund Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#12342</td>
+                                        <td>Zhao Liu</td>
+                                        <td>2023-12-07</td>
+                                        <td>₹599.00</td>
+                                        <td>2023-12-07</td>
+                                        <td>Customer Request</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12342">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12342">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12335</td>
+                                        <td>Wang Ming</td>
+                                        <td>2023-12-05</td>
+                                        <td>₹1,299.00</td>
+                                        <td>2023-12-05</td>
+                                        <td>Out of Stock</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12335">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12335">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12328</td>
+                                        <td>Li Hua</td>
+                                        <td>2023-12-03</td>
+                                        <td>₹899.00</td>
+                                        <td>2023-12-03</td>
+                                        <td>Payment Issue</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12328">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12328">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12320</td>
+                                        <td>Chen Wei</td>
+                                        <td>2023-12-01</td>
+                                        <td>₹2,499.00</td>
+                                        <td>2023-12-01</td>
+                                        <td>Customer Request</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12320">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12320">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12315</td>
+                                        <td>Zhang Min</td>
+                                        <td>2023-11-28</td>
+                                        <td>₹1,899.00</td>
+                                        <td>2023-11-28</td>
+                                        <td>Customer Request</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12315">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12315">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12310</td>
+                                        <td>Liu Yang</td>
+                                        <td>2023-11-25</td>
+                                        <td>₹799.00</td>
+                                        <td>2023-11-25</td>
+                                        <td>Out of Stock</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12310">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12310">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12305</td>
+                                        <td>Wu Jing</td>
+                                        <td>2023-11-22</td>
+                                        <td>₹1,599.00</td>
+                                        <td>2023-11-22</td>
+                                        <td>Payment Issue</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12305">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12305">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12298</td>
+                                        <td>Sun Li</td>
+                                        <td>2023-11-20</td>
+                                        <td>₹999.00</td>
+                                        <td>2023-11-20</td>
+                                        <td>Customer Request</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12298">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12298">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12290</td>
+                                        <td>Zhou Tao</td>
+                                        <td>2023-11-15</td>
+                                        <td>₹3,299.00</td>
+                                        <td>2023-11-15</td>
+                                        <td>Customer Request</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12290">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12290">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12285</td>
+                                        <td>Huang Fei</td>
+                                        <td>2023-11-12</td>
+                                        <td>₹1,199.00</td>
+                                        <td>2023-11-12</td>
+                                        <td>Other</td>
+                                        <td><span class="badge badge-success">Processed</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-order-id="#12285">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-order-id="#12285">
+                                                    <i class="fas fa-undo"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                Showing 1 to 10 of 12 entries
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Order Management System 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- View Cancelled Order Modal -->
+    <div class="modal fade" id="viewCancelledOrderModal" tabindex="-1" aria-labelledby="viewCancelledOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewCancelledOrderModalLabel">Cancelled Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Order Number:</strong> <span id="viewOrderNumber">#12342</span></p>
+                            <p><strong>Customer:</strong> <span id="viewCustomer">Zhao Liu</span></p>
+                            <p><strong>Order Date:</strong> <span id="viewOrderDate">2023-12-07</span></p>
+                            <p><strong>Cancelled Date:</strong> <span id="viewCancelledDate">2023-12-07</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Order Amount:</strong> <span id="viewOrderAmount">₹599.00</span></p>
+                            <p><strong>Cancellation Reason:</strong> <span id="viewCancellationReason">Customer Request</span></p>
+                            <p><strong>Refund Status:</strong> <span id="viewRefundStatus"><span class="badge badge-success">Processed</span></span></p>
+                            <p><strong>Refund Amount:</strong> <span id="viewRefundAmount">₹599.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <h5>Order Products</h5>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Product A</td>
+                                    <td>₹299.00</td>
+                                    <td>2</td>
+                                    <td>₹598.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td><strong>₹599.00</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <h5>Cancellation Details</h5>
+                    <div class="mb-3">
+                        <p><strong>Cancelled By:</strong> Customer</p>
+                        <p><strong>Notes:</strong> Customer requested cancellation due to change of mind.</p>
+                        <p><strong>Refund Method:</strong> Original Payment Method</p>
+                        <p><strong>Refund Date:</strong> 2023-12-08</p>
+                    </div>
+                    
+                    <h5>Order History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Operator</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023-12-07 09:30</td>
+                                    <td><span class="badge badge-primary">Order Placed</span></td>
+                                    <td>System</td>
+                                    <td>Order created</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-12-07 10:15</td>
+                                    <td><span class="badge badge-danger">Cancelled</span></td>
+                                    <td>Customer</td>
+                                    <td>Order cancelled by customer</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-12-08 11:20</td>
+                                    <td><span class="badge badge-success">Refund Processed</span></td>
+                                    <td>Admin</td>
+                                    <td>Refund processed successfully</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#refundDetailsModal" data-bs-dismiss="modal">View Refund Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Refund Details Modal -->
+    <div class="modal fade" id="refundDetailsModal" tabindex="-1" aria-labelledby="refundDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="refundDetailsModalLabel">Refund Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Order Number:</strong> <span id="refundOrderNumber">#12342</span></p>
+                            <p><strong>Order Amount:</strong> <span id="refundOrderAmount">₹599.00</span></p>
+                            <p><strong>Refund Amount:</strong> <span id="refundAmount">₹599.00</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Refund ID:</strong> <span id="refundId">RFN-2023-001</span></p>
+                            <p><strong>Refund Date:</strong> <span id="refundDate">2023-12-08</span></p>
+                            <p><strong>Refund Status:</strong> <span id="refundStatus"><span class="badge badge-success">Processed</span></span></p>
+                        </div>
+                    </div>
+                    
+                    <h5>Refund Information</h5>
+                    <div class="mb-3">
+                        <p><strong>Refund Method:</strong> Original Payment Method</p>
+                        <p><strong>Refund Reason:</strong> Order Cancellation</p>
+                        <p><strong>Processing Time:</strong> 1 day</p>
+                        <p><strong>Processed By:</strong> Admin</p>
+                    </div>
+                    
+                    <h5>Refund Timeline</h5>
+                    <div class="mb-3">
+                        <ul class="timeline">
+                            <li>
+                                <div class="timeline-badge"><i class="fas fa-times-circle text-danger"></i></div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h6 class="timeline-title">Order Cancelled</h6>
+                                        <p><small class="text-muted">2023-12-07 10:15</small></p>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>Order was cancelled by customer request.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline-badge"><i class="fas fa-clock text-warning"></i></div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h6 class="timeline-title">Refund Initiated</h6>
+                                        <p><small class="text-muted">2023-12-07 11:30</small></p>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>Refund process initiated by admin.</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline-badge"><i class="fas fa-check-circle text-success"></i></div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h6 class="timeline-title">Refund Processed</h6>
+                                        <p><small class="text-muted">2023-12-08 11:20</small></p>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>Refund has been processed successfully.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewCancelledOrderModal" data-bs-dismiss="modal">View Order Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Select "Logout" below to end your current session and return to the login page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Load Sidebar and Header -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load sidebar
+            fetch('components/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Highlight active menu item
+                    const currentPath = window.location.pathname;
+                    const menuItems = document.querySelectorAll('.sidebar-nav .nav-link');
+                    
+                    menuItems.forEach(item => {
+                        if (item.getAttribute('href') === currentPath.split('/').pop()) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Expand Order Management menu
+                    const orderMenu = document.querySelector('#collapseOrders');
+                    if (orderMenu) {
+                        orderMenu.classList.add('show');
+                    }
+                });
+            
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#content-wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Initialize charts after header is loaded
+                    initializeCharts();
+                });
+            
+            // Export button functionality
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                exportTableToCSV('cancelledOrdersTable', 'cancelled-orders.csv');
+            });
+            
+            // Handle view cancelled order modal
+            document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#viewCancelledOrderModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    // In a real application, you would fetch order data based on ID
+                    // For this example, we'll use static data
+                    const orderData = {
+                        '#12342': {
+                            customer: 'Zhao Liu',
+                            orderDate: '2023-12-07',
+                            cancelledDate: '2023-12-07',
+                            amount: '₹599.00',
+                            reason: 'Customer Request',
+                            refundStatus: 'Processed',
+                            refundAmount: '₹599.00'
+                        },
+                        '#12335': {
+                            customer: 'Wang Ming',
+                            orderDate: '2023-12-05',
+                            cancelledDate: '2023-12-05',
+                            amount: '₹1,299.00',
+                            reason: 'Out of Stock',
+                            refundStatus: 'Processed',
+                            refundAmount: '₹1,299.00'
+                        }
+                        // Add more order data as needed
+                    };
+                    
+                    const order = orderData[orderId];
+                    if (order) {
+                        document.getElementById('viewOrderNumber').textContent = orderId;
+                        document.getElementById('viewCustomer').textContent = order.customer;
+                        document.getElementById('viewOrderDate').textContent = order.orderDate;
+                        document.getElementById('viewCancelledDate').textContent = order.cancelledDate;
+                        document.getElementById('viewOrderAmount').textContent = order.amount;
+                        document.getElementById('viewCancellationReason').textContent = order.reason;
+                        document.getElementById('viewRefundStatus').innerHTML = `<span class="badge badge-${order.refundStatus === 'Processed' ? 'success' : 'warning'}">${order.refundStatus}</span>`;
+                        document.getElementById('viewRefundAmount').textContent = order.refundAmount;
+                    }
+                });
+            });
+            
+            // Handle refund details modal
+            document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#refundDetailsModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    // In a real application, you would fetch order data based on ID
+                    // For this example, we'll use static data
+                    const orderData = {
+                        '#12342': {
+                            amount: '₹599.00',
+                            refundAmount: '₹599.00',
+                            refundId: 'RFN-2023-001',
+                            refundDate: '2023-12-08',
+                            refundStatus: 'Processed'
+                        },
+                        '#12335': {
+                            amount: '₹1,299.00',
+                            refundAmount: '₹1,299.00',
+                            refundId: 'RFN-2023-002',
+                            refundDate: '2023-12-06',
+                            refundStatus: 'Processed'
+                        }
+                        // Add more order data as needed
+                    };
+                    
+                    const order = orderData[orderId];
+                    if (order) {
+                        document.getElementById('refundOrderNumber').textContent = orderId;
+                        document.getElementById('refundOrderAmount').textContent = order.amount;
+                        document.getElementById('refundAmount').textContent = order.refundAmount;
+                        document.getElementById('refundId').textContent = order.refundId;
+                        document.getElementById('refundDate').textContent = order.refundDate;
+                        document.getElementById('refundStatus').innerHTML = `<span class="badge badge-${order.refundStatus === 'Processed' ? 'success' : 'warning'}">${order.refundStatus}</span>`;
+                    }
+                });
+            });
+        });
+        
+        function initializeCharts() {
+            // Cancellation Reasons Chart
+            const cancellationReasonsCtx = document.getElementById('cancellationReasonsChart').getContext('2d');
+            const cancellationReasonsChart = new Chart(cancellationReasonsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Customer Request', 'Out of Stock', 'Payment Issue', 'Other'],
+                    datasets: [{
+                        label: 'Number of Cancellations',
+                        data: [8, 2, 1, 1],
+                        backgroundColor: [
+                            'rgba(231, 74, 59, 0.8)',
+                            'rgba(54, 185, 204, 0.8)',
+                            'rgba(246, 194, 62, 0.8)',
+                            'rgba(108, 117, 125, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(231, 74, 59, 1)',
+                            'rgba(54, 185, 204, 1)',
+                            'rgba(246, 194, 62, 1)',
+                            'rgba(108, 117, 125, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Cancellation Trend Chart
+            const cancellationTrendCtx = document.getElementById('cancellationTrendChart').getContext('2d');
+            const cancellationTrendChart = new Chart(cancellationTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Cancelled Orders',
+                        data: [3, 4, 5],
+                        backgroundColor: 'rgba(231, 74, 59, 0.1)',
+                        borderColor: 'rgba(231, 74, 59, 1)',
+                        pointBackgroundColor: 'rgba(231, 74, 59, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(231, 74, 59, 1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    
+    <!-- Timeline Styles -->
+    <style>
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 4px;
+            background: #e9ecef;
+            left: 20px;
+            top: 0;
+        }
+        
+        .timeline > li {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .timeline > li:before,
+        .timeline > li:after {
+            content: " ";
+            display: table;
+        }
+        
+        .timeline > li:after {
+            clear: both;
+        }
+        
+        .timeline-badge {
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 1.2em;
+            text-align: center;
+            position: absolute;
+            top: 16px;
+            left: 0;
+            background-color: #4e73df;
+            border-radius: 50%;
+            z-index: 100;
+        }
+        
+        .timeline-panel {
+            float: right;
+            width: calc(100% - 70px);
+            padding: 0 20px 0 30px;
+            position: relative;
+        }
+        
+        .timeline-heading {
+            margin-bottom: 5px;
+        }
+        
+        .timeline-title {
+            margin-top: 0;
+            color: inherit;
+            font-weight: 600;
+        }
+        
+        .timeline-body > p,
+        .timeline-body > ul {
+            margin-bottom: 0;
+        }
+        
+        .timeline-body > p + p {
+            margin-top: 5px;
+        }
+    </style>
+</body>
+</html>

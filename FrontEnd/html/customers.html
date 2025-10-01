@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System - Customer Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar will be loaded here -->
+        
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Header will be loaded here -->
+            
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Customer Management</h1>
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                        <i class="fas fa-plus fa-sm text-white-50"></i> Add New Customer
+                    </a>
+                </div>
+                
+                <!-- Customer Summary Cards -->
+                <div class="row">
+                    <!-- Total Customers Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Customers</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">87</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-up"></i> 12 new this month
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Active Customers Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Customers</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">72</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-up"></i> 82.8% of total
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- New Customers Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New Customers</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                        <div class="mt-1 text-success">
+                                            <i class="fas fa-arrow-up"></i> 20% from last month
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- VIP Customers Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">VIP Customers</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
+                                        <div class="mt-1 text-info">
+                                            <i class="fas fa-info-circle"></i> Spent > ₹10,000
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-crown fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Customers Table -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Customer List</h6>
+                        <div class="d-flex">
+                            <div class="input-group me-2" style="width: 250px;">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search customers..." aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">All Customers</a>
+                                    <a class="dropdown-item" href="#">Active Customers</a>
+                                    <a class="dropdown-item" href="#">Inactive Customers</a>
+                                    <a class="dropdown-item" href="#">VIP Customers</a>
+                                    <a class="dropdown-item" href="#">New Customers</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Customer ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Total Orders</th>
+                                        <th>Total Spent</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CUS001</td>
+                                        <td>Zhang San</td>
+                                        <td>zhangsan@example.com</td>
+                                        <td>+86 138 0000 0001</td>
+                                        <td>12</td>
+                                        <td>₹15,678.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS001">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS001">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS001">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS002</td>
+                                        <td>Li Si</td>
+                                        <td>lisi@example.com</td>
+                                        <td>+86 138 0000 0002</td>
+                                        <td>8</td>
+                                        <td>₹12,340.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS002">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS002">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS002">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS003</td>
+                                        <td>Wang Wu</td>
+                                        <td>wangwu@example.com</td>
+                                        <td>+86 138 0000 0003</td>
+                                        <td>15</td>
+                                        <td>₹24,890.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS003">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS003">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS003">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS004</td>
+                                        <td>Zhao Liu</td>
+                                        <td>zhaoliu@example.com</td>
+                                        <td>+86 138 0000 0004</td>
+                                        <td>5</td>
+                                        <td>₹9,870.00</td>
+                                        <td><span class="badge badge-secondary">Inactive</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS004">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS004">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS004">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS005</td>
+                                        <td>Qian Qi</td>
+                                        <td>qianqi@example.com</td>
+                                        <td>+86 138 0000 0005</td>
+                                        <td>23</td>
+                                        <td>₹28,450.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS005">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS005">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS005">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS006</td>
+                                        <td>Sun Mei</td>
+                                        <td>sunmei@example.com</td>
+                                        <td>+86 138 0000 0006</td>
+                                        <td>7</td>
+                                        <td>₹9,870.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS006">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS006">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS006">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS007</td>
+                                        <td> Zhou Hao</td>
+                                        <td>zhouhao@example.com</td>
+                                        <td>+86 138 0000 0007</td>
+                                        <td>3</td>
+                                        <td>₹5,430.00</td>
+                                        <td><span class="badge badge-secondary">Inactive</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS007">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS007">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS007">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS008</td>
+                                        <td>Wu Fang</td>
+                                        <td>wufang@example.com</td>
+                                        <td>+86 138 0000 0008</td>
+                                        <td>11</td>
+                                        <td>₹13,250.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS008">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS008">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS008">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS009</td>
+                                        <td>Li Na</td>
+                                        <td>lina@example.com</td>
+                                        <td>+86 138 0000 0009</td>
+                                        <td>6</td>
+                                        <td>₹8,760.00</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS009">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS009">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS009">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUS010</td>
+                                        <td>Chen Wei</td>
+                                        <td>chenwei@example.com</td>
+                                        <td>+86 138 0000 0010</td>
+                                        <td>9</td>
+                                        <td>₹11,540.00</td>
+                                        <td><span class="badge badge-warning">VIP</span></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewCustomerModal" data-customer-id="CUS010">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-customer-id="CUS010">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal" data-customer-id="CUS010">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div>
+                                Showing 1 to 10 of 87 entries
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Order Management System 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Add Customer Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add New Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="customerName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="customerName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="customerEmail" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="customerPhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="customerPhone" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerStatus" class="form-label">Status</label>
+                                <select class="form-select" id="customerStatus" required>
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="customerAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="customerAddress">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="customerCity">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="customerNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View Customer Modal -->
+    <div class="modal fade" id="viewCustomerModal" tabindex="-1" aria-labelledby="viewCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewCustomerModalLabel">Customer Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Customer ID:</strong> <span id="viewCustomerId">CUS001</span></p>
+                            <p><strong>Full Name:</strong> <span id="viewCustomerName">Zhang San</span></p>
+                            <p><strong>Email Address:</strong> <span id="viewCustomerEmail">zhangsan@example.com</span></p>
+                            <p><strong>Phone Number:</strong> <span id="viewCustomerPhone">+86 138 0000 0001</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong> <span id="viewCustomerStatus"><span class="badge badge-success">Active</span></span></p>
+                            <p><strong>Total Orders:</strong> <span id="viewCustomerOrders">12</span></p>
+                            <p><strong>Total Spent:</strong> <span id="viewCustomerSpent">₹15,678.00</span></p>
+                            <p><strong>Member Since:</strong> <span id="viewCustomerSince">2023-01-15</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Address:</strong> <span id="viewCustomerAddress">123 Main Street, Beijing</span></p>
+                            <p><strong>City:</strong> <span id="viewCustomerCity">Beijing</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Notes:</strong> <span id="viewCustomerNotes">VIP customer, prefers expedited shipping</span></p>
+                        </div>
+                    </div>
+                    
+                    <h5>Recent Orders</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order Number</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>2023-12-10</td>
+                                    <td>₹1,299.00</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#12338</td>
+                                    <td>2023-12-05</td>
+                                    <td>₹2,499.00</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#12328</td>
+                                    <td>2023-11-28</td>
+                                    <td>₹899.00</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomerModal" data-bs-dismiss="modal">Edit Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Customer Modal -->
+    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editCustomerId" class="form-label">Customer ID</label>
+                                <input type="text" class="form-control" id="editCustomerId" value="CUS001" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editCustomerStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editCustomerStatus" required>
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editCustomerName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="editCustomerName" value="Zhang San" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editCustomerEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="editCustomerEmail" value="zhangsan@example.com" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editCustomerPhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="editCustomerPhone" value="+86 138 0000 0001" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editCustomerCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="editCustomerCity" value="Beijing">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCustomerAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="editCustomerAddress" value="123 Main Street, Beijing">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCustomerNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="editCustomerNotes" rows="3">VIP customer, prefers expedited shipping</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Customer Modal -->
+    <div class="modal fade" id="deleteCustomerModal" tabindex="-1" aria-labelledby="deleteCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCustomerModalLabel">Delete Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete customer <strong id="deleteCustomerName">CUS001 - Zhang San</strong>? This action cannot be undone and will remove all associated order history.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Confirm Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Select "Logout" below to end your current session and return to the login page.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Script -->
+    <script src="assets/js/script.js"></script>
+    
+    <!-- Load Sidebar and Header -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load sidebar
+            fetch('components/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#wrapper').insertAdjacentHTML('afterbegin', data);
+                    
+                    // Highlight active menu item
+                    const currentPath = window.location.pathname;
+                    const menuItems = document.querySelectorAll('.sidebar-nav .nav-link');
+                    
+                    menuItems.forEach(item => {
+                        if (item.getAttribute('href') === currentPath.split('/').pop()) {
+                            item.classList.add('active');
+                        }
+                    });
+                });
+            
+            // Load header
+            fetch('components/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('#content-wrapper').insertAdjacentHTML('afterbegin', data);
+                });
+            
+            // Handle view customer modal
+            document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#viewCustomerModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const customerId = this.getAttribute('data-customer-id');
+                    // In a real application, you would fetch customer data based on ID
+                    // For this example, we'll use static data
+                    const customerData = {
+                        'CUS001': {
+                            name: 'Zhang San',
+                            email: 'zhangsan@example.com',
+                            phone: '+86 138 0000 0001',
+                            status: 'Active',
+                            orders: 12,
+                            spent: '₹15,678.00',
+                            since: '2023-01-15',
+                            address: '123 Main Street, Beijing',
+                            city: 'Beijing',
+                            notes: 'VIP customer, prefers expedited shipping'
+                        },
+                        'CUS002': {
+                            name: 'Li Si',
+                            email: 'lisi@example.com',
+                            phone: '+86 138 0000 0002',
+                            status: 'Active',
+                            orders: 8,
+                            spent: '₹12,340.00',
+                            since: '2023-02-20',
+                            address: '456 Park Avenue, Shanghai',
+                            city: 'Shanghai',
+                            notes: 'Regular customer'
+                        }
+                        // Add more customer data as needed
+                    };
+                    
+                    const customer = customerData[customerId];
+                    if (customer) {
+                        document.getElementById('viewCustomerId').textContent = customerId;
+                        document.getElementById('viewCustomerName').textContent = customer.name;
+                        document.getElementById('viewCustomerEmail').textContent = customer.email;
+                        document.getElementById('viewCustomerPhone').textContent = customer.phone;
+                        document.getElementById('viewCustomerStatus').innerHTML = `<span class="badge badge-${customer.status === 'Active' ? 'success' : 'secondary'}">${customer.status}</span>`;
+                        document.getElementById('viewCustomerOrders').textContent = customer.orders;
+                        document.getElementById('viewCustomerSpent').textContent = customer.spent;
+                        document.getElementById('viewCustomerSince').textContent = customer.since;
+                        document.getElementById('viewCustomerAddress').textContent = customer.address;
+                        document.getElementById('viewCustomerCity').textContent = customer.city;
+                        document.getElementById('viewCustomerNotes').textContent = customer.notes;
+                    }
+                });
+            });
+            
+            // Handle edit customer modal
+            document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#editCustomerModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const customerId = this.getAttribute('data-customer-id');
+                    // In a real application, you would fetch customer data based on ID
+                    // For this example, we'll use static data
+                    const customerData = {
+                        'CUS001': {
+                            name: 'Zhang San',
+                            email: 'zhangsan@example.com',
+                            phone: '+86 138 0000 0001',
+                            status: 'active',
+                            city: 'Beijing',
+                            address: '123 Main Street, Beijing',
+                            notes: 'VIP customer, prefers expedited shipping'
+                        },
+                        'CUS002': {
+                            name: 'Li Si',
+                            email: 'lisi@example.com',
+                            phone: '+86 138 0000 0002',
+                            status: 'active',
+                            city: 'Shanghai',
+                            address: '456 Park Avenue, Shanghai',
+                            notes: 'Regular customer'
+                        }
+                        // Add more customer data as needed
+                    };
+                    
+                    const customer = customerData[customerId];
+                    if (customer) {
+                        document.getElementById('editCustomerId').value = customerId;
+                        document.getElementById('editCustomerName').value = customer.name;
+                        document.getElementById('editCustomerEmail').value = customer.email;
+                        document.getElementById('editCustomerPhone').value = customer.phone;
+                        document.getElementById('editCustomerStatus').value = customer.status;
+                        document.getElementById('editCustomerCity').value = customer.city;
+                        document.getElementById('editCustomerAddress').value = customer.address;
+                        document.getElementById('editCustomerNotes').value = customer.notes;
+                    }
+                });
+            });
+            
+            // Handle delete customer modal
+            document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#deleteCustomerModal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const customerId = this.getAttribute('data-customer-id');
+                    // In a real application, you would fetch customer data based on ID
+                    // For this example, we'll use static data
+                    const customerData = {
+                        'CUS001': { name: 'Zhang San' },
+                        'CUS002': { name: 'Li Si' }
+                        // Add more customer data as needed
+                    };
+                    
+                    const customer = customerData[customerId];
+                    if (customer) {
+                        document.getElementById('deleteCustomerName').textContent = `${customerId} - ${customer.name}`;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
