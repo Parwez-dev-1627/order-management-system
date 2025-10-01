@@ -45,10 +45,12 @@ builder.Services.AddScoped<WebAPI.Repositories.IBillItemRepository, WebAPI.Repos
 
 var app = builder.Build();
 
-// Seed database
+
+// Run migrations and seed database
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate(); // Apply any pending migrations
     WebAPI.Services.DatabaseSeeder.Seed(context);
 }
 
