@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Pie, Bar } from "../ChartExports";
 import {
   Typography,
   Paper,
@@ -41,7 +42,7 @@ export default function Dashboard() {
     apiService.getAllOrders()
       .then((data) => {
         console.log('Fetched dashboard orders:', data);
-     //   setOrders(data || []); // Ensure we always have an array
+        setOrders(data || []); // Ensure we always have an array
       })
       .catch((err) => {
         console.error('Failed to fetch dashboard orders:', err);
@@ -72,18 +73,60 @@ export default function Dashboard() {
     );
   }
 
+  // Chart data preparation
+  const statusCounts: Record<string, number> = {};
+  const statusTotals: Record<string, number> = {};
+  orders.forEach(order => {
+    const status = order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1).toLowerCase() : "Unknown";
+    statusCounts[status] = (statusCounts[status] || 0) + 1;
+    statusTotals[status] = (statusTotals[status] || 0) + (order.totalAmount || 0);
+  });
+
+  const pieData = {
+    labels: Object.keys(statusCounts),
+    datasets: [
+      {
+        data: Object.values(statusCounts),
+        backgroundColor: ["#4caf50", "#ff9800", "#2196f3", "#f44336", "#bdbdbd"],
+      },
+    ],
+  };
+
+  const barData = {
+    labels: Object.keys(statusTotals),
+    datasets: [
+      {
+        label: "Order Total ($)",
+        data: Object.values(statusTotals),
+        backgroundColor: "#2196f3",
+      },
+    ],
+  };
+
   return (
     <div>
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
-      
       {orders.length === 0 ? (
         <Alert severity="info">
           No orders found. 
           {error ? " There was an error loading orders." : " Create your first order to get started."}
         </Alert>
       ) : (
+        <Box display="flex" gap={4} justifyContent="center" alignItems="flex-start" mb={4}>
+          <Paper sx={{ p: 2, minWidth: 280, maxWidth: 340, height: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="h6" gutterBottom fontSize={18}>Order Status Distribution</Typography>
+            <Pie data={pieData} width={240} height={240} />
+          </Paper>
+          <Paper sx={{ p: 2, minWidth: 280, maxWidth: 340, height: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="h6" gutterBottom fontSize={18}>Order Totals by Status</Typography>
+            <Bar data={barData} width={240} height={240} options={{ maintainAspectRatio: true }} />
+          </Paper>
+        </Box>
+      )}
+      {/* Existing table below charts */}
+      {orders.length > 0 && (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -104,14 +147,12 @@ export default function Dashboard() {
                 >
                   <TableCell>{order.id}</TableCell>
                   <TableCell>
-                    {/* Adjust based on your API response structure */}
-                    {order.customerName || order.customer?.name || `Customer ${order.id}`}
+                    {order.customerName || order.customer?.name || order.customerId || "Unknown"}
                   </TableCell>
                   <TableCell>
                     {getStatusChip(order.status || "pending")}
                   </TableCell>
                   <TableCell>
-                    {/* Format based on your API response */}
                     {order.totalAmount ? `$${order.totalAmount}` : "N/A"}
                   </TableCell>
                 </TableRow>

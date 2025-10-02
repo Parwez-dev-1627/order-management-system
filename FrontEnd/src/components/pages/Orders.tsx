@@ -10,7 +10,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Chip,
   TableContainer,
   Grid,
   Card,
@@ -32,21 +31,44 @@ import apiService from "../../services/ApiService";
 // Enhanced Orders Data combining both structures
 
 const getStatusChip = (status: string) => {
-  if (!status) {
-    return <Chip label="Unknown" size="small" color="default" />;
-  }
-  switch (status.toLowerCase()) {
+  // Map status to color
+  let color = "#bdbdbd";
+  switch (status?.toLowerCase()) {
     case "completed":
-      return <Chip label="Completed" color="success" size="small" />;
+      color = "#4caf50"; // green
+      break;
     case "pending":
-      return <Chip label="Pending" color="warning" size="small" />;
+      color = "#ff9800"; // orange
+      break;
     case "in progress":
-      return <Chip label="In Progress" color="info" size="small" />;
+      color = "#2196f3"; // blue
+      break;
     case "cancelled":
-      return <Chip label="Cancelled" color="error" size="small" />;
+      color = "#f44336"; // red
+      break;
     default:
-      return <Chip label={status} size="small" />;
+      color = "#bdbdbd";
   }
+  // Capitalize first letter, rest lowercase
+  const formattedStatus = status
+    ? status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+    : "Unknown";
+  return (
+    <Box display="flex" alignItems="center" gap={1}>
+      <Box
+        sx={{
+          width: 16,
+          height: 16,
+          borderRadius: "50%",
+          backgroundColor: color,
+          display: "inline-block",
+        }}
+      />
+      <Typography variant="body2" color="text.primary">
+        {formattedStatus}
+      </Typography>
+    </Box>
+  );
 };
 
 export default function Orders() {

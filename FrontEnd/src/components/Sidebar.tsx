@@ -10,6 +10,9 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -23,84 +26,85 @@ const drawerWidth = 240;
 
 export default function Sidebar() {
   const [openOrders, setOpenOrders] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(false);
 
   return (
     <Drawer
       sx={{
-        width: drawerWidth,
+        width: collapsed ? 60 : drawerWidth,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          width: drawerWidth,
+          width: collapsed ? 60 : drawerWidth,
           boxSizing: "border-box",
-          background: "linear-gradient(to bottom, #3f51b5, #1a237e)",
-          color: "white",
+          background: "#181A20",
+          color: "#fff",
+          transition: "width 0.3s",
         },
       }}
       variant="permanent"
       anchor="left"
     >
-      <Toolbar>
-        <Box textAlign="center" width="100%">
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            ORDER MANAGEMENT
-            <br />
-            SYSTEM
-          </Typography>
-        </Box>
+      <Toolbar sx={{ justifyContent: "space-between", px: 1 }}>
+        <IconButton onClick={() => setCollapsed(!collapsed)} sx={{ color: "#fff" }}>
+          {collapsed ? <MenuIcon /> : <ChevronLeftIcon />}
+        </IconButton>
+        {!collapsed && (
+          <Box textAlign="center" width="100%">
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              ORDER MANAGEMENT<br />SYSTEM
+            </Typography>
+          </Box>
+        )}
       </Toolbar>
-
       <List>
-        <ListItemButton component={Link} to="/">
-          <ListItemIcon sx={{ color: "white" }}>
+        <ListItemButton component={Link} to="/" sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+          <ListItemIcon sx={{ color: "#fff", minWidth: 0, justifyContent: "center" }}>
             <DashboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          {!collapsed && <ListItemText primary="Dashboard" />}
         </ListItemButton>
-
-        {/* Orders */}
-        <ListItemButton onClick={() => setOpenOrders(!openOrders)}>
-          <ListItemIcon sx={{ color: "white" }}>
+        <ListItemButton onClick={() => setOpenOrders(!openOrders)} sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+          <ListItemIcon sx={{ color: "#fff", minWidth: 0, justifyContent: "center" }}>
             <ShoppingCartIcon />
           </ListItemIcon>
-          <ListItemText primary="Order Management" />
-          {openOrders ? <ExpandLess /> : <ExpandMore />}
+          {!collapsed && <ListItemText primary="Order Management" />}
+          {!collapsed && (openOrders ? <ExpandLess /> : <ExpandMore />)}
         </ListItemButton>
-        <Collapse in={openOrders} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding sx={{ pl: 4 }}>
-            <ListItemButton component={Link} to="/orders/all">
-              <ListItemText primary="All Orders" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/orders/pending">
-              <ListItemText primary="Pending Orders" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/orders/completed">
-              <ListItemText primary="Completed Orders" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/orders/cancelled">
-              <ListItemText primary="Cancelled Orders" />
-            </ListItemButton>
-          </List>
-        </Collapse>
-
-        <ListItemButton component={Link} to="/products">
-          <ListItemIcon sx={{ color: "white" }}>
+        {!collapsed && (
+          <Collapse in={openOrders} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding sx={{ pl: 4 }}>
+              <ListItemButton component={Link} to="/orders/all">
+                <ListItemText primary="All Orders" />
+              </ListItemButton>
+              <ListItemButton component={Link} to="/orders/pending">
+                <ListItemText primary="Pending Orders" />
+              </ListItemButton>
+              <ListItemButton component={Link} to="/orders/completed">
+                <ListItemText primary="Completed Orders" />
+              </ListItemButton>
+              <ListItemButton component={Link} to="/orders/cancelled">
+                <ListItemText primary="Cancelled Orders" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+        )}
+        <ListItemButton component={Link} to="/products" sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+          <ListItemIcon sx={{ color: "#fff", minWidth: 0, justifyContent: "center" }}>
             <InventoryIcon />
           </ListItemIcon>
-          <ListItemText primary="Product Management" />
+          {!collapsed && <ListItemText primary="Product Management" />}
         </ListItemButton>
-
-        <ListItemButton component={Link} to="/customers">
-          <ListItemIcon sx={{ color: "white" }}>
+        <ListItemButton component={Link} to="/customers" sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+          <ListItemIcon sx={{ color: "#fff", minWidth: 0, justifyContent: "center" }}>
             <PeopleIcon />
           </ListItemIcon>
-          <ListItemText primary="Customer Management" />
+          {!collapsed && <ListItemText primary="Customer Management" />}
         </ListItemButton>
-
-        <ListItemButton component={Link} to="/reports">
-          <ListItemIcon sx={{ color: "white" }}>
+        <ListItemButton component={Link} to="/reports" sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+          <ListItemIcon sx={{ color: "#fff", minWidth: 0, justifyContent: "center" }}>
             <AssessmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Reports" />
+          {!collapsed && <ListItemText primary="Reports" />}
         </ListItemButton>
       </List>
     </Drawer>
